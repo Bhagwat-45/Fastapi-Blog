@@ -1,0 +1,28 @@
+name : CI
+
+on:
+  push:
+    branches:
+      -main
+
+jobs:
+  build:
+    name: Install & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install Python
+        run: uv python install
+      
+      - name: Install Dependencies
+        run: uv sync --frozen
+      
+      - name: Verify FastAPI app imports
+        run: |
+          uv run python -c "import fastapi; print(f'FastAPI version: {fastapi.__version__}')"
