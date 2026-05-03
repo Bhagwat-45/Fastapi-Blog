@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -44,7 +46,6 @@ def get_posts():
 
 @app.get("/api/posts/{post_id}")
 def get_post(post_id:int):
-def get_post(post_id:int, post_in: int):
     for post in posts: 
         if post.get("id") == post_id:
             return post
@@ -93,5 +94,3 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
         },
         status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
     )
-
-
