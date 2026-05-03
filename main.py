@@ -1,10 +1,20 @@
-from fastapi import FastAPI, Request, HTTPException, status
+from fastapi import FastAPI, Request, HTTPException, status, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from schema import PostResponse, PostCreate
+from schemas.post_schema import PostCreate, PostResponse
+from database.database import Base, engine,get_db
+from models.posts_model import Post
+from models.users_model import User
+from typing import Annotated
+
+
+Base.metadata.create_all(bind=engine)
+
 
 posts: list[dict] = [
     {
@@ -25,6 +35,7 @@ posts: list[dict] = [
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/media", StaticFiles(directory="media"), name="media")
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/",include_in_schema=False,name="home")

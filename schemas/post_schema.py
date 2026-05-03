@@ -1,4 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, EmailStr
+from datetime import datetime
+from .user_schema import UserResponse
 
 class PostBase(BaseModel):
     title: str = Field(min_length=2, max_length=100)
@@ -7,7 +9,7 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
-    pass 
+    user_id : int # Temp
 
 
 class PostResponse(PostBase):
@@ -15,6 +17,7 @@ class PostResponse(PostBase):
         from_attributes=True
     )
     #In Pydantic Model V2, Setting from_attributes=True
-    id: int = Field()
-    date_posted: str = Field()
+    id: int 
+    date_posted: datetime
+    author: UserResponse
     
