@@ -1,8 +1,7 @@
 from __future__ import annotations
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from database import Base
-from .posts_model import Post
+from database.database import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -16,10 +15,11 @@ class User(Base):
         default=None
     )
 
-    posts: Mapped[list[Post]] = relationship(back_populates="author")
+    posts: Mapped[list["Post"]] = relationship(back_populates="author")
 
     @property
     def image_path(self) -> str:
         if self.image_file:
             return f"/media/profile_pics/{self.image_file}"
         return "/static/profile_pics/default.jpg"
+    
