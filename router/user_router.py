@@ -61,5 +61,5 @@ def get_user_posts(user_id: int, db: Annotated[Session, Depends(get_db)]):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"User with {user_id} not found")
     
     result = db.execute(select(Post).where(Post.user_id==user_id))
-    posts = result.scalars().first()
+    posts = result.scalars().all()
     return posts
