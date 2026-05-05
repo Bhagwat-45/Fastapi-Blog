@@ -12,5 +12,9 @@ class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int 
-    image_file : str| None
-    image_path : str
+    
+class UserUpdate(BaseModel):
+    username: str | None = Field(default=None,min_length=3, max_length=50)
+    email: EmailStr | None = Field(default=None,max_length=120)
+
+
