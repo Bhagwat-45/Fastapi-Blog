@@ -3,7 +3,6 @@ from sqlalchemy.orm import DeclarativeBase
 
 DB_URL = "sqlite+aiosqlite:///./blog.db"
 
-
 #Connection to the DB
 engine = create_async_engine(
     url=DB_URL,
@@ -22,5 +21,5 @@ class Base(DeclarativeBase):
     pass
 
 async def get_db():
-    async with AsyncSessionLocal() as db:
-        yield db
+    async with AsyncSessionLocal() as session:
+        yield session
